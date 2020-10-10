@@ -585,7 +585,9 @@ void HAL_SYSCFG_CCMSRAMErase(void)
   */
 void HAL_SYSCFG_EnableMemorySwappingBank(void)
 {
+#if defined(SYSCFG_MEMRMP_FB_MODE)
   SET_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_FB_MODE);
+#endif
 }
 
 /**
@@ -600,7 +602,9 @@ void HAL_SYSCFG_EnableMemorySwappingBank(void)
   */
 void HAL_SYSCFG_DisableMemorySwappingBank(void)
 {
+#if defined(SYSCFG_MEMRMP_FB_MODE)
   CLEAR_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_FB_MODE);
+#endif
 }
 
 #if defined(VREFBUF)

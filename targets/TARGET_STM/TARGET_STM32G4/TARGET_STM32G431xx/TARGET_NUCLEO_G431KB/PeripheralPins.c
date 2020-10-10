@@ -54,6 +54,9 @@
 
 //*** ADC ***
 
+// Tauno: OK
+// Tauno: WARNING PC_4,5 connected to ADC in QFN48+ Configs (NUCLEO F431KB probably has a LQFP32)
+// Tauno: WARNING PB_1,2,11,12,13,14,15 connected to ADC in QFN48+ Configs
 MBED_WEAK const PinMap PinMap_ADC[] = {
     {PA_0,       ADC_1, STM_PIN_DATA_EXT(STM_MODE_ANALOG, GPIO_NOPULL, 0, 1, 0)}, // ADC1_IN1
     {PA_0_ALT0,  ADC_2, STM_PIN_DATA_EXT(STM_MODE_ANALOG, GPIO_NOPULL, 0, 1, 0)}, // ADC2_IN1
@@ -72,6 +75,7 @@ MBED_WEAK const PinMap PinMap_ADC[] = {
 };
 
 // !!! SECTION TO BE CHECKED WITH DEVICE REFERENCE MANUAL
+// Tauno: WARNING - I haven't verified this. Assuming it's correct.
 MBED_WEAK const PinMap PinMap_ADC_Internal[] = {
     {ADC_TEMP,   ADC_1,    STM_PIN_DATA_EXT(STM_MODE_ANALOG, GPIO_NOPULL, 0, 16, 0)},
     {ADC_VREF,   ADC_1,    STM_PIN_DATA_EXT(STM_MODE_ANALOG, GPIO_NOPULL, 0, 17, 0)},
@@ -81,6 +85,7 @@ MBED_WEAK const PinMap PinMap_ADC_Internal[] = {
 
 //*** DAC ***
 
+// Tauno: OK
 MBED_WEAK const PinMap PinMap_DAC[] = {
     {PA_4,       DAC_1, STM_PIN_DATA_EXT(STM_MODE_ANALOG, GPIO_NOPULL, 0, 1, 0)}, // DAC1_OUT1
     {PA_5,       DAC_1, STM_PIN_DATA_EXT(STM_MODE_ANALOG, GPIO_NOPULL, 0, 2, 0)}, // DAC1_OUT2
@@ -88,6 +93,9 @@ MBED_WEAK const PinMap PinMap_DAC[] = {
 };
 
 //*** I2C ***
+
+// PF2, PC4, PB2, PB12, PC8, PC9, PC11, PB9 => I2C (Only QFP48+)
+// PA10 (I2C2_SMBA) => Appears to be missing below (even though on LQFP32 pin 20) => Maybe we don't care SMBA?
 
 MBED_WEAK const PinMap PinMap_I2C_SDA[] = {
     {PA_8,       I2C_2, STM_PIN_DATA(STM_MODE_AF_OD, GPIO_NOPULL, GPIO_AF4_I2C2)},
@@ -108,6 +116,8 @@ MBED_WEAK const PinMap PinMap_I2C_SCL[] = {
 };
 
 //*** PWM ***
+
+// Tauno: WARNING - A lot. I'm just going to assume it's OK.
 
 // TIM5 cannot be used because already used by the us_ticker
 MBED_WEAK const PinMap PinMap_PWM[] = {
@@ -167,6 +177,12 @@ MBED_WEAK const PinMap PinMap_PWM[] = {
 };
 
 //*** SERIAL ***
+
+// Tauno: Only in QFN48+: PC0, PC1, PB10, PB11, PB12, PB13
+// Tauno NOTE: I think the comment for PA2 and PA3 is wrong (mixed). RX should be TX. The C-code appears correct.
+// Tauno: PB1 => LPUART1_RTS_DE (Pin only exists in QFN48+)
+// Other than that:
+
 
 MBED_WEAK const PinMap PinMap_UART_TX[] = {
     {PA_2,       UART_2,  STM_PIN_DATA(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF7_USART2)}, // Connected to STDIO_UART_RX
