@@ -2507,6 +2507,37 @@
         ],
         "device_name": "STM32G474RETx"
     },
+    "NUCLEO_G431KB": {
+        "inherits": [
+            "MCU_STM32G4"
+        ],
+        "supported_form_factors": [
+            "ARDUINO",
+            "MORPHO"
+        ],
+        "config": {
+            "hse_value": {
+                "help": "HSE default value is 25MHz in HAL",
+                "value": "24000000",
+                "macro_name": "HSE_VALUE"
+            }
+        },
+        "extra_labels_add": [
+            "STM32G431xx",
+            "STM32G431KB"
+        ],
+        "macros_add": [
+            "STM32G431xx",
+            "STM32G431KB",
+        ],
+        "device_has_add": [
+            "USBDEVICE"
+        ],
+        "detect_code": [
+            "1234"
+        ],
+        "device_name": "STM32G431KBTx"
+    },
     "MCU_STM32H7": {
         "inherits": [
             "MCU_STM32"
