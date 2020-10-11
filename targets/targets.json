@@ -2528,7 +2528,7 @@
         ],
         "macros_add": [
             "STM32G431xx",
-            "STM32G431KB",
+            "STM32G431KB"
         ],
         "device_has_add": [
             "USBDEVICE"
