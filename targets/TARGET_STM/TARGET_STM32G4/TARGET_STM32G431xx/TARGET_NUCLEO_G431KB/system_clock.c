@@ -94,6 +94,7 @@ uint8_t SetSysClock_PLL_HSE(uint8_t bypass)
 {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+	RCC_PeriphCLKInitTypeDef RCC_PeriphCLKInitStruct = { 0 };
 
     /** Configure the main internal regulator output voltage
     */
@@ -105,14 +106,28 @@ uint8_t SetSysClock_PLL_HSE(uint8_t bypass)
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV6;
-    RCC_OscInitStruct.PLL.PLLN = 85;
-    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+//    RCC_OscInitStruct.PLL.PLLN = 85;
+	RCC_OscInitStruct.PLL.PLLN = 24;
+	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+
+	// For USB: By default, enable HSI48 Clock. (USB needs a 48 MHz Clock. RNG is verified with the 48MHz HSI48).
+	RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSI48;
+	RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+	
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         return 0; // FAIL
     }
-    /** Initializes the CPU, AHB and APB busses clocks
+
+	// For USB: By default, connect USB (and RNG) to the HSI48 Clock.
+	RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;
+	RCC_PeriphCLKInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
+	if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK) {
+		return 0; // FAIL
+	}
+	
+	/** Initializes the CPU, AHB and APB busses clocks
     */
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
                                   | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
@@ -145,8 +160,8 @@ uint8_t SetSysClock_PLL_HSI(void)
     HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
     /** Initializes the CPU, AHB and APB busses clocks
     */
-    // MATTIAS: WARNING - I'm assuming these clock configs are same (G431 & G474)
-    // MATTIAS: They are different between F303 and G474
+    // TAUNO: WARNING - I'm assuming these clock configs are same (G431 & G474)
+    // TAUNO: They are different between F303 and G474
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
     RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
@@ -158,12 +173,12 @@ uint8_t SetSysClock_PLL_HSI(void)
 	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-	RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSI48;       // MATTIAS: By default, enable HSI48 when using HSI.
-	RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;                        // MATTIAS: USB needs - and RNG is verified - with the 48Mhz HSI48.
+	RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSI48;       // Tauno: By default, enable HSI48 when using HSI.
+	RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;                        // Tauno: USB needs - and RNG is verified - with the 48Mhz HSI48.
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         return 0; // FAIL
     }
-	RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;   // MATTIAS: By default, connect HSI48 clock to USB (and RNG)
+	RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;   // TAUNO: By default, connect HSI48 clock to USB (and RNG)
 	RCC_PeriphCLKInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
 	if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK) {
 		return 0; // FAIL
