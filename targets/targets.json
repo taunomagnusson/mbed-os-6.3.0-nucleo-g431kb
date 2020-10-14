@@ -2451,7 +2451,7 @@
         "config": {
             "clock_source": {
                 "help": "Mask value : USE_PLL_HSE_EXTC | USE_PLL_HSE_XTAL (need HW patch) | USE_PLL_HSI",
-                "value": "USE_PLL_HSE_EXTC",
+                "value": "USE_PLL_HSI",
                 "macro_name": "CLOCK_SOURCE"
             },
             "lpticker_lptim": {
@@ -2508,103 +2508,38 @@
         "device_name": "STM32G474RETx"
     },
     "NUCLEO_G431KB": {
-        "inherits": [
-            "MCU_STM32"
-        ],
-        "supported_form_factors": [
-            "ARDUINO",
-            "MORPHO"
-        ],
-        "core": "Cortex-M4F",
-        "config": {
-            "clock_source": {
-                "help": "Mask value : USE_PLL_HSE_EXTC | USE_PLL_HSE_XTAL (need HW patch) | USE_PLL_HSI",
-                "value": "USE_PLL_HSI",
-                "macro_name": "CLOCK_SOURCE"
-            },
-            "lpticker_lptim": {
-                "help": "This target supports LPTIM. Set value 1 to use LPTIM for LPTICKER, or 0 to use RTC wakeup timer",
-                "value": 1
-            },
-            "hse_value": {
-                "help": "HSE default value is 25MHz in HAL",
-                "value": "24000000",
-                "macro_name": "HSE_VALUE"
-            }
-        },
-        "extra_labels_add": [
-            "STM32G4",
-            "STM32G431xx",
-            "STM32G431KB"
-        ],
-        "components_add": [
-            "FLASHIAP"
-        ],
-        "macros_add": [
-            "STM32G431xx",
-            "STM32G431KB",
-            "EXTRA_IDLE_STACK_REQUIRED"
-        ],
-        "overrides": {
-            "lpticker_delay_ticks": 0
-        },
-        "device_has_add": [
-            "ANALOGOUT",
-            "FLASH",
-            "MPU",
-            "USBDEVICE"
-        ],
-        "detect_code": [
-            "1234"
-        ],
-        "release_versions": [
-            "5"
-        ],
-        "device_name": "STM32G431KBTx"
-    },
-    "NUCLEO_G431KB_NEW": {
-        "inherits": [
-            "MCU_STM32G4"
-        ],
-        "supported_form_factors": [
-            "ARDUINO",
-            "MORPHO"
-        ],
-        "config": {
-            "clock_source": {
-                "help": "Mask value : USE_PLL_HSE_EXTC | USE_PLL_HSE_XTAL (need HW patch) | USE_PLL_HSI",
-                "value": "USE_PLL_HSI",
-                "macro_name": "CLOCK_SOURCE"
-            },
-            "hse_value": {
-                "help": "HSE default value is 25MHz in HAL",
-                "value": "24000000",
-                "macro_name": "HSE_VALUE"
-            }
-        },
-        "overrides": {
-            "clock_source": "USE_PLL_HSI",
-            "lse_available": 0
-        },
-
-        "extra_labels_add": [
-            "STM32G431xx",
-            "STM32G431KB"
-        ],
-        "macros_add": [
-            "STM32G431xx",
-            "STM32G431KB"
-        ],
-        "device_has_add": [
-            "USBDEVICE"
-        ],
-        "device_has_remove": [
-            "LPTICKER"
-        ],
-        "detect_code": [
-            "1234"
-        ],
-        "device_name": "STM32G431KBTx"
+      "inherits": [
+        "MCU_STM32G4"
+      ],
+      "supported_form_factors": [
+        "ARDUINO",
+        "MORPHO"
+      ],
+      "config": {
+        "hse_value": {
+          "help": "HSE default value is 25MHz in HAL",
+          "value": "24000000",
+          "macro_name": "HSE_VALUE"
+        }
+      },
+      "overrides": {
+        "lse_available": 0
+      },
+      "extra_labels_add": [
+        "STM32G431xx",
+        "STM32G431KB"
+      ],
+      "macros_add": [
+        "STM32G431xx",
+        "STM32G431KB"
+      ],
+      "device_has_add": [
+        "USBDEVICE"
+      ],
+      "detect_code": [
+        "1234"
+      ],
+      "device_name": "STM32G431KBTx"
     },
     "MCU_STM32H7": {
         "inherits": [
