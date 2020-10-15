@@ -106,8 +106,7 @@ uint8_t SetSysClock_PLL_HSE(uint8_t bypass)
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV6;
-//    RCC_OscInitStruct.PLL.PLLN = 85;
-	RCC_OscInitStruct.PLL.PLLN = 24;
+    RCC_OscInitStruct.PLL.PLLN = 85;
 	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
@@ -160,25 +159,22 @@ uint8_t SetSysClock_PLL_HSI(void)
     HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
     /** Initializes the CPU, AHB and APB busses clocks
     */
-    // TAUNO: WARNING - I'm assuming these clock configs are same (G431 & G474)
-    // TAUNO: They are different between F303 and G474
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
     RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
     RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV4;
-//    RCC_OscInitStruct.PLL.PLLN = 85;                // 170 Mhz
-	RCC_OscInitStruct.PLL.PLLN = 24;                // 48 MHz
+    RCC_OscInitStruct.PLL.PLLN = 85;
 	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-	RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSI48;       // Tauno: By default, enable HSI48 when using HSI.
-	RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;                        // Tauno: USB needs - and RNG is verified - with the 48Mhz HSI48.
+	RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSI48;       // Enable HSI48 and feed it to USB/RNG.
+	RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;                        // USB needs - and RNG is verified with - the 48Mhz HSI48.
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         return 0; // FAIL
     }
-	RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;   // TAUNO: By default, connect HSI48 clock to USB (and RNG)
+	RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;   // Connect HSI48 clock to USB (and RNG)
 	RCC_PeriphCLKInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
 	if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK) {
 		return 0; // FAIL
