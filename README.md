@@ -16,3 +16,7 @@ Alt B (2-level directory structure (works with VisualGDB)):
 5. mbed new .
 6. Add a "main.cpp" file, for example the main.cpp from here: https://github.com/ARMmbed/mbed-os-example-blinky/blob/master/main.cpp
 7. mbed compile
+
+To run MBED tests:
+1. rm main.cpp
+2. mbed test -c
