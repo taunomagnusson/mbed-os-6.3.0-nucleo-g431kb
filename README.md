@@ -8,7 +8,7 @@ Alt A:
 3. Add a "main.cpp" file, for example the main.cpp from here: https://github.com/ARMmbed/mbed-os-example-blinky/blob/master/main.cpp
 4. mbed compile
 
-Alt B:
+Alt B (2-level directory structure (works with VisualGDB)):
 1. mkdir g431kb
 2. cd g431kb
 3. git clone https://github.com/taunomagnusson/mbed-os-nucleo-g431kb.git
