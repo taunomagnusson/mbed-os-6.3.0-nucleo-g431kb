@@ -94,7 +94,7 @@ uint8_t SetSysClock_PLL_HSE(uint8_t bypass)
 {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-	RCC_PeriphCLKInitTypeDef RCC_PeriphCLKInitStruct = { 0 };
+    RCC_PeriphCLKInitTypeDef RCC_PeriphCLKInitStruct = { 0 };
 
     /** Configure the main internal regulator output voltage
     */
@@ -107,26 +107,26 @@ uint8_t SetSysClock_PLL_HSE(uint8_t bypass)
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV6;
     RCC_OscInitStruct.PLL.PLLN = 85;
-	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
 
-	// For USB: By default, enable HSI48 Clock. (USB needs a 48 MHz Clock. RNG is verified with the 48MHz HSI48).
-	RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSI48;
-	RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+    // For USB: By default, enable HSI48 Clock. (USB needs a 48 MHz Clock. RNG is verified with the 48MHz HSI48).
+    RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSI48;
+    RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
 	
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         return 0; // FAIL
     }
 
-	// For USB: By default, connect USB (and RNG) to the HSI48 Clock.
-	RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;
-	RCC_PeriphCLKInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
-	if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK) {
-		return 0; // FAIL
-	}
+    // For USB: By default, connect USB (and RNG) to the HSI48 Clock.
+    RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;
+    RCC_PeriphCLKInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
+    if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK) {
+        return 0; // FAIL
+    }
 	
-	/** Initializes the CPU, AHB and APB busses clocks
+    /** Initializes the CPU, AHB and APB busses clocks
     */
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
                                   | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
@@ -135,7 +135,7 @@ uint8_t SetSysClock_PLL_HSE(uint8_t bypass)
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-    // MATTIAS: WARNING - I'm assuming FLASH_LATENCY_8 here (it was 2 for F303K8)
+    // Using same Flash Latency as for G474RE
     if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_8) != HAL_OK) {
         return 0; // FAIL
     }
@@ -152,7 +152,7 @@ uint8_t SetSysClock_PLL_HSI(void)
 {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-	RCC_PeriphCLKInitTypeDef RCC_PeriphCLKInitStruct = { 0 };
+    RCC_PeriphCLKInitTypeDef RCC_PeriphCLKInitStruct = { 0 };
 
     /** Configure the main internal regulator output voltage
     */
@@ -166,19 +166,19 @@ uint8_t SetSysClock_PLL_HSI(void)
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
     RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV4;
     RCC_OscInitStruct.PLL.PLLN = 85;
-	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-	RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSI48;       // Enable HSI48 and feed it to USB/RNG.
-	RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;                        // USB needs - and RNG is verified with - the 48Mhz HSI48.
+    RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSI48;       // Enable HSI48 and feed it to USB/RNG.
+    RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;                        // USB needs - and RNG is verified with - the 48Mhz HSI48.
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         return 0; // FAIL
     }
-	RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;   // Connect HSI48 clock to USB (and RNG)
-	RCC_PeriphCLKInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
-	if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK) {
-		return 0; // FAIL
-	}
+    RCC_PeriphCLKInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;   // Connect HSI48 clock to USB (and RNG)
+    RCC_PeriphCLKInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
+    if (HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct) != HAL_OK) {
+		    return 0; // FAIL
+    }
 	
     /** Initializes the CPU, AHB and APB busses clocks
     */

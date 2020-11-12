@@ -27,7 +27,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************
  *
- * Automatically generated from STM32G431K(6-8-B)Tx.xml
  */
 
 #ifndef MBED_PINNAMES_H
@@ -109,8 +108,7 @@ typedef enum {
 
     PG_10 = 0x6A,       // WARNING - Not documented in STM32 Ref Guides. Inferred from above.
 
-    // ADC internal channels
-    // Tauno: WARNING - verify these
+    // ADC internal channels (Tauno WARNING: Not Verified)
     ADC_TEMP = 0xF0,
     ADC_VREF = 0xF1,
     ADC_VBAT = 0xF2,
@@ -121,8 +119,8 @@ typedef enum {
     A1          = PA_1,
     A2          = PA_3,
     A3          = PA_4,
-    A4          = PB_7,  // or PA_5 according to NUCLEO_G431KB manual (solder bridge?)
-    A5          = PA_15,  // or PA6 according to NUCLEO_G431KB manual
+    A4          = PB_7,   // or PA_5 according to NUCLEO_G431KB manual (solder bridge?)
+    A5          = PA_15,  // or PA_6 according to NUCLEO_G431KB manual
     A6          = PA_7,
     A7          = PA_2,
 
@@ -139,12 +137,14 @@ typedef enum {
     D10         = PA_11,
     D11         = PB_5,
     D12         = PB_4,
-    D13         = PB_3,  // or PB8 according to NUCLEO_G431KB manual
+    D13         = PB_3,  // or PB_8 according to NUCLEO_G431KB manual
     D14         = PB_4,  // Tauno WARNING: Dummy adds (There is no D14,15 on 431KB)
-    D15         = PB_3,  // Tauno WARNING: Otherwise compile fails. But not for F303K8. Remove to see error.
+    D15         = PB_3,  // Tauno WARNING: Without these 2 dummies compile fails. Remove to see error.
 
+    /*** Board LED ***/
+    LED1        = PB_8,
 
-    // STDIO for console print
+    /*** Common PIN Mappings ***/
 #ifdef MBED_CONF_TARGET_STDIO_UART_TX
     STDIO_UART_TX = MBED_CONF_TARGET_STDIO_UART_TX,
 #else
@@ -156,49 +156,48 @@ typedef enum {
     STDIO_UART_RX = PA_3,
 #endif
 
-    // MATTIAS: WARNING - I have not checked these
-    // I Assume they are related to the NUCLEO-Board PINOUTS
-
-
-    // Generic signals namings
-    LED1        = PB_8,
-//    LED2        = PA_5,
-//    LED3        = PA_5,
-//    LED4        = PA_5,
-//    USER_BUTTON = PC_13,
-    // Standardized button names
-//    BUTTON1 = USER_BUTTON,
-
     SERIAL_TX   = STDIO_UART_TX,
     SERIAL_RX   = STDIO_UART_RX,
     USBTX       = STDIO_UART_TX,
     USBRX       = STDIO_UART_RX,
 
-    I2C_SCL     = PA_15,
-    I2C_SDA     = PB_7,
-    SPI_MOSI    = PB_5,
-    SPI_MISO    = PB_4,
-    SPI_SCK     = PB_3,
-    SPI_CS      = PA_11,
-//    PWM_OUT     = PB_3,
+    I2C_SCL     = PA_15,    // I2C2
+    I2C_SDA     = PB_7,     // I2C2
 
-    /**** USB pins ****/
-    USB_DM = PA_11,
-    USB_DP = PA_12,
+    SPI_MOSI    = PB_5,     // SPI3 Note: In UM2397 it's SPI1, in CubeIDE SPI3
+    SPI_MISO    = PB_4,     // SPI3 Note: In UM2397 it's SPI1, in CubeIDE SPI3
+    SPI_SCK     = PB_3,     // SPI3 Note: In UM2397 it's SPI1, in CubeIDE SPI3
+    SPI_CS      = PA_11,    // UM2397 (PA_11 - SPI_CS handled by GPIO). In CubeIDE PA_15.
+
+    PWM_OUT     = PB_6,
+
+    USB_DM      = PA_11,
+    USB_DP      = PA_12,
+
+    USART1_TX   = PA_9,
+    USART1_RX   = PA_10,
+
+    ADC1_IN3    = PA_2,
+    ADC1_IN4    = PA_3,
+    ADC2_IN1    = PA_0,
+    ADC2_IN2    = PA_1,
+    ADC2_IN3    = PA_6,
+    ADC2_IN4    = PA_7,
+    ADC2_IN13   = PA_5,
+    ADC2_IN17   = PA_4,
 
     /**** OSCILLATOR pins ****/
-    RCC_OSC_IN = PF_0,
+    RCC_OSC_IN  = PF_0,
     RCC_OSC_OUT = PF_1,
 
     /**** DEBUG pins ****/
     SYS_JTCK_SWCLK = PA_14,
-    SYS_JTDI = PA_15,
-    SYS_JTDO_SWO = PB_3,
+    SYS_JTDI       = PA_15,
+    SYS_JTDO_SWO   = PB_3,
     SYS_JTMS_SWDIO = PA_13,
-    SYS_JTRST = PB_4,
-    SYS_PVD_IN = PB_7,
-    SYS_WKUP1 = PA_0,
-    SYS_WKUP4 = PA_2,
+    SYS_JTRST      = PB_4,
+    SYS_PVD_IN     = PB_7,
+    SYS_WKUP1      = PA_0,
 
     // Not connected
     NC = (int)0xFFFFFFFF
